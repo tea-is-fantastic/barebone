@@ -5,10 +5,6 @@ on:
   workflow_dispatch:
 
 env:
-  OUTPUT_PATH: '${{ github.workspace }}/output'
-  DATA_PATH: '${{ github.workspace }}/data'
-  APP_PATH: '${{ github.workspace }}/app'
-  ANDROID_PATH: '${{ github.workspace }}/output/android'
   API_TOKEN_GITHUB: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -28,15 +24,18 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global init.defaultBranch "main"
 
-      - name: Setup React Native
+      - name: Init React Native
         run: npx @tisf/rn-init
+
+      - name: Setup React Native
+        run: npx @tisf/rn-setup
 
       - name: Push changes
         uses: cpina/github-action-push-to-another-repository@main
         with:
           source-directory: .
           destination-github-username: 'ProvincePK'
-          destination-repository-name: 'province'
+          destination-repository-name: 'province-mobile'
           user-email: github-actions[bot]@users.noreply.github.
           user-name: github-actions[bot]
           target-branch: main
