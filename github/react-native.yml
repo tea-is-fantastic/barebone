@@ -1,4 +1,6 @@
 name: React Native
+permissions:
+   contents: write
 on:
   push:
     branches: [ "workflow" ]
@@ -10,7 +12,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: halaat
+    environment: default
     steps:
       - uses: actions/checkout@v3
 
@@ -27,15 +29,12 @@ jobs:
       - name: Init React Native
         run: npx @tisf/rn-init
 
-      - name: Setup React Native
-        run: npx @tisf/rn-setup
-
       - name: Push changes
         uses: cpina/github-action-push-to-another-repository@main
         with:
           source-directory: .
-          destination-github-username: 'ProvincePK'
-          destination-repository-name: 'province-mobile'
+          destination-github-username: ${{ github.repository_owner }}
+          destination-repository-name: ${{ github.event.repository.name }}
           user-email: github-actions[bot]@users.noreply.github.
           user-name: github-actions[bot]
           target-branch: main
